@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: nihaapril/film-backend:v2
+        image: nihaapril/film-backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
