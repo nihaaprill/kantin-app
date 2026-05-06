@@ -4,8 +4,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+import os
+
 film_data = {
-    "nama_film": "Daftar Film Favorit",
+    "nama_film": f"{os.getenv('NAMA')} - {os.getenv('NIM')}",
     "film": ["Avengers", "Interstellar", "Inception"]
 }
 

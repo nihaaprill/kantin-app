@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USER = "USERNAME_DOCKER_KAMU"
-        GIT_REPO_URL = "URL_REPO_GITHUB_KAMU.git"
+        DOCKER_USER = "nihaapril"
+        GIT_REPO_URL = "https://github.com/nihaaprill/kantin-app.git"
     }
 
     stages {
@@ -14,31 +14,19 @@ pipeline {
             }
         }
 
-        stage('Build & Push Docker Image') {
+        stage('Build Docker Image') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-login',
-                    passwordVariable: 'PASS',
-                    usernameVariable: 'USER'
-                )]) {
-
-                    sh "docker build -t ${USER}/film-backend:latest ./backend"
-                    sh "docker build -t ${USER}/film-frontend:latest ./frontend"
-
-                    sh "echo ${PASS} | docker login -u ${USER} --password-stdin"
-
-                    sh "docker push ${USER}/film-backend:latest"
-                    sh "docker push ${USER}/film-frontend:latest"
-                }
+                sh "docker build -t ${DOCKER_USER}/film-backend:latest ./backend"
+                sh "docker build -t ${DOCKER_USER}/film-frontend:latest ./frontend"
             }
         }
 
-        stage('Deploy ke Azure AKS') {
+        stage('Push to Docker Hub') {
             steps {
-                withKubeConfig([credentialsId: 'aks-config']) {
-                    sh "kubectl apply -f film-k8s.yaml"
-                    sh "kubectl rollout restart deployment backend-film"
-                    sh "kubectl rollout restart deployment frontend-film"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh "echo ${PASS} | docker login -u ${USER} --password-stdin"
+                    sh "docker push ${USER}/film-backend:latest"
+                    sh "docker push ${USER}/film-frontend:latest"
                 }
             }
         }

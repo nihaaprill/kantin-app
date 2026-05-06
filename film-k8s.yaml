@@ -59,16 +59,14 @@ spec:
         ports:
         - containerPort: 80
 
----
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-film-service
 spec:
+  type: LoadBalancer
   selector:
     app: frontend-film
   ports:
-    - protocol: TCP
-      port: 80
+    - port: 80
       targetPort: 80
-  type: ClusterIP
