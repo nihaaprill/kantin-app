@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-kantin
+  name: backend-film
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: backend-film
   template:
     metadata:
       labels:
-        app: backend
+        app: backend-film
     spec:
       containers:
       - name: backend
-        image: nihaapril/kantin-backend:latest
+        image: nihaapril/film-backend:latest
         ports:
         - containerPort: 5000
         env:
@@ -27,10 +27,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: backend-film-service
 spec:
   selector:
-    app: backend
+    app: backend-film
   ports:
     - protocol: TCP
       port: 5000
@@ -41,20 +41,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-kantin
+  name: frontend-film
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-film
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-film
     spec:
       containers:
       - name: frontend-ui
-        image: nihaapril/kantin-frontend:latest
+        image: nihaapril/film-frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -63,10 +63,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: frontend-film-service
 spec:
   selector:
-    app: frontend
+    app: frontend-film
   ports:
     - protocol: TCP
       port: 80

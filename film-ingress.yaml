@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kantin-ingress
+  name: film-ingress
 spec:
   rules:
   - http:
@@ -10,13 +10,13 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: backend-service
+            name: backend-film-service
             port:
               number: 5000
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: frontend-service
+            name: frontend-film-service
             port:
               number: 80

@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><title>E-Kantin</title></head>
+<head><title>E-Film</title></head>
 <body>
-    <h1 id="kantin-name">Memuat...</h1>
-    <ul id="menu-list"></ul>
-
+    <h1 id="film-name">Memuat...</h1>
+    <ul id="film-list"></ul>
 
     <hr>
-    <h3>Tambah Menu Baru:</h3>
-    <input type="text" id="menu-input" placeholder="Nama makanan...">
-    <button onclick="tambahMenu()">Tambah</button>
-
+    <h3>Tambah Film Baru:</h3>
+    <input type="text" id="film-input" placeholder="Nama film...">
+    <button onclick="tambahFilm()">Tambah</button>
 
     <script>
         const API_URL = "/api"
-
 
         function loadData() {
             fetch(`${API_URL}/info`)
                 .then(res => res.json())
                 .then(data => {
-                    document.getElementById('kantin-name').innerText = data.nama_kantin;
-                    const list = document.getElementById('menu-list');
+                    document.getElementById('film-name').innerText = data.nama_film;
+                    const list = document.getElementById('film-list');
                     list.innerHTML = '';
-                    data.menu.forEach(item => {
+                    data.film.forEach(item => {
                         let li = document.createElement('li');
                         li.innerText = item;
                         list.appendChild(li);
@@ -31,10 +28,9 @@
                 });
         }
 
-
-        function tambahMenu() {
-            const input = document.getElementById('menu-input');
-            fetch(`${API_URL}/add-menu`, {
+        function tambahFilm() {
+            const input = document.getElementById('film-input');
+            fetch(`${API_URL}/add-film`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ item: input.value })
@@ -45,7 +41,6 @@
                 loadData();
             });
         }
-
 
         loadData();
     </script>
