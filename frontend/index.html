@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>E-Kantin</title>
+    <title>Film App</title>
 </head>
 <body>
-    <h1 id="kantin-name">Memuat...</h1>
-    <ul id="menu-list"></ul>
+    <h1 id="film-name">Memuat...</h1>
+    <ul id="film-list"></ul>
 
     <hr>
-    <h3>Tambah Menu Baru:</h3>
-    <input type="text" id="menu-input" placeholder="Nama makanan...">
-    <button onclick="tambahMenu()">Tambah</button>
+    <h3>Tambah Film Baru:</h3>
+    <input type="text" id="film-input" placeholder="Nama film...">
+    <button onclick="tambahFilm()">Tambah</button>
 
     <script>
         const API_URL = "/api";
 
-       function loadData() {
-    fetch(`${API_URL}/info`)
-        .then(res => {
-            if (!res.ok) {
-                throw new Error("API error: " + res.status);
-            }
-            return res.json();
-        })
-        .then(data => {
-            document.getElementById('kantin-name').innerText = data.nama_film;
+        function loadData() {
+            fetch(`${API_URL}/info`)
+                .then(res => {
+                    if (!res.ok) throw new Error("API error: " + res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    document.getElementById('film-name').innerText = data.nama_film;
 
-            const list = document.getElementById('menu-list');
-            list.innerHTML = '';
+                    const list = document.getElementById('film-list');
+                    list.innerHTML = '';
 
-            data.film.forEach(item => {
-                let li = document.createElement('li');
-                li.innerText = item;
-                list.appendChild(li);
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            document.getElementById('kantin-name').innerText = "Gagal load data";
-        });
-}
+                    data.film.forEach(item => {
+                        let li = document.createElement('li');
+                        li.innerText = item;
+                        list.appendChild(li);
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('film-name').innerText = "Gagal load data";
+                });
+        }
 
-        function tambahMenu() {
-            const input = document.getElementById('menu-input');
+        function tambahFilm() {
+            const input = document.getElementById('film-input');
 
-            fetch(`${API_URL}/add-film`, {  // 🔧 endpoint backend
+            fetch(`${API_URL}/add-film`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ item: input.value })
