@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: backend
-        image: nihaapril/film-backend:latest
+        image: nihaapril/film-backend:v2
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
@@ -59,12 +60,13 @@ spec:
         ports:
         - containerPort: 80
 
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-film-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP   
   selector:
     app: frontend-film
   ports:
